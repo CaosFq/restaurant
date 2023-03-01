@@ -1,11 +1,13 @@
 const express = require('express');
 const cors = require('cors');
+const morgan = require('morgan');
 
 const { db } = require('../database/db');
-const mealRouter = require('../routes/meal.router');
-const orderRouter = require('../routes/order.router');
-const userRouter = require('../routes/user.router');
+const { mealRouter }= require('../routes/meal.router');
+const { orderRouter }= require('../routes/order.router');
 const restaurantRouter = require('../routes/restaurant.router');
+const userRouter = require('../routes/user.router');
+const globalErrorHandler = require('../controllers/error.controller');
 
 class Server {
   constructor() {
@@ -31,6 +33,10 @@ class Server {
   }
 
   middlewares() {
+    this.app.use(cors());
+    this.app.use(express.json());
+
+
     if (process.env.NODE_ENV === 'development') {
       this.app.use(morgan('dev'));
     }
@@ -39,15 +45,26 @@ class Server {
   }
   routes() {
     //Importante: la ruta siempre tiene que arriba de los errores
-    this.app.use(this.paths.restaurant, restaurantRouter);
-    this.app.use(this.paths.user, userRouter);
-    this.app.use(this.paths.meal, mealRouter); 
+    this.app.use(this.paths.meal, mealRouter);
     this.app.use(this.paths.order, orderRouter);
+    this.app.use(this.paths.restaurant, restaurantRouter); 
+    this.app.use(this.paths.user, userRouter);
 
+    this.app.all('*', (req, res, next) => {
+      return next(
+        new AppError(`Can't find ${req.originalUrl} on this server!`, 404)
+      );
+    });
 
+    this.app.use(globalErrorHandler);
+}
+
+/*
+ * It connects to the database, authenticates the connection, and the sync
+ */
   database() {
     db.authenticate()
-      .then(() => console.log('Database authenticated'))
+      .then(() => console.log('Database authenticated!!! 🙂'))
       .catch(err => console.log(err));
 
     //relations

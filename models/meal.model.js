@@ -14,7 +14,7 @@ const Meals = db.define('meals', {
     },
     price: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: false,s
         
     },
    

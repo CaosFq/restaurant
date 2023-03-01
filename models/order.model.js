@@ -8,7 +8,7 @@ const Orders = db.define('orders', {
         allowNull: false,
         type: DataTypes.INTEGER
     },
-    mealld: {
+    mealId: {
         type: DataTypes.STRING,
         allowNull: false
     },

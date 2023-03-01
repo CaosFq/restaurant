@@ -14,22 +14,23 @@ const Restaurant = db.define('restaurant', {
     },
     email: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true,
     },
     password: {
         type: DataTypes.STRING,
         allowNull: false
     },
     role: {
-        type: DataTypes.STRING,
+        type: DataTypes.ENUM('normal', 'admin'),
         allowNull: false,
         defaultValue: 'normal',
-        enum: ['normal', 'admin']
+        
     },
     status: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        defaultValue: true
+        defaultValue: true,
     }
 })
 
