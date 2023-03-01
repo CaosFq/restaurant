@@ -9,18 +9,32 @@ const Review = db.define('review', {
         type: DataTypes.INTEGER
     },
     userId: {
-       
+        type: DataTypes.INTEGER,
+        allowNull: false
     },
     comment: {
-        
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    comment: {
+        type: DataTypes.STRING,
+        allowNull: false
     },
     restaurantId: {
-       
-    },
-    rating: {
+        type: DataTypes.INTEGER,
+        allowNull: false
         
     },
-    
+    rating: { 
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        
+    },
+    status: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: true
+    }
 })
 
-module.exports = User
+module.exports = Review;
