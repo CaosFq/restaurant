@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
-const { db } = require('../database/config');
+const { db } = require('../database/db');
 
-const Meals = db.define('meals', {
+const Meal = db.define('meal', {
     id: {
         primaryKey: true,
         autoIncrement: true,
@@ -30,4 +30,4 @@ const Meals = db.define('meals', {
     }
 })
 
-module.exports = Meal
+module.exports = Meal;

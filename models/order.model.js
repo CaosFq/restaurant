@@ -1,34 +1,35 @@
 const { DataTypes } = require('sequelize');
-const { db } = require('../database/config');
+const { db } = require('../database/db');
 
-const Orders = db.define('orders', {
-    id: {
-        primaryKey: true,
-        autoIncrement: true,
-        allowNull: false,
-        type: DataTypes.INTEGER
-    },
-    mealId: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    userId: {
-        
-    },
-    totalPrice: {
-      
-    },
-    quantity: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        defaultValue: 'normal',
-        enum: ['normal', 'admin']
-    },
-    status: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: true
-    }
-})
+const Order = db.define('order', {
+  id: {
+    primaryKey: true,
+    autoIncrement: true,
+    allowNull: false,
+    type: DataTypes.INTEGER,
+  },
+  mealId: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  userId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  totalPrice: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  quantity: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  status: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    enum: ['active', 'cancelled', 'completed'],
+    defaultValue: 'active',
+  },
+});
 
-module.exports = Order
+module.exports = Order;

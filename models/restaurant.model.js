@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
-const { db } = require('../database/config');
+const { db } = require('../database/db');
 
-const Restaurants = db.define('restaurants', {
+const Restaurant = db.define('restaurant', {
     id: {
         primaryKey: true,
         autoIncrement: true,
@@ -20,6 +20,8 @@ const Restaurants = db.define('restaurants', {
         allowNull: false
     },
     rating: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
         
     },
     status: {
@@ -29,4 +31,4 @@ const Restaurants = db.define('restaurants', {
     }
 })
 
-module.exports = User
+module.exports = Restaurant;
