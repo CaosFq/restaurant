@@ -1,38 +1,52 @@
 const { Router } = require('express');
-const { signup,login, updateUser } = require('../controllers/user.controller');
+const { check } = require('express-validator');
+
 const {
-  validUserByEmail,
-  validPassword,
-  validUser,
-  protectAccountOwner,
-  } = require('../middlewares/user.middleware');
-  const {
-    signupValidations,
-    validateFields,
-    loginValidation,
-  } = require('../../middlewares/validations.middleware');
+  findAllUsers,
+  findOneUser,
+  updateUser,
+  deleteUser,
+  updatePassword,
+} = require('../controllers/user.controllers');
+const { protect, protectAccountOwner } = require('../middlewares/auth.middleware');
+const { validExistUser } = require('../middlewares/users.middleware');
+const { validateFields } = require('../middlewares/validateField.middeleware');
 
-  const router = Router();
+const router = Router();
 
-  router.post('/signup', signupValidations, validateFields,signup)
+router.get('/', findAllUsers);
 
-router.post(
-  '/login',
-  loginValidation,
-  validateFields,
-  validateUserByEmail,
-  validPassword,
-  login
-);
+router.get('/:id', validExistUser, findOneUser);
 router.use(protect);
 router.patch(
-  '/:id', 
-  updateUserValidation,
+  '/:id',
+  [
+    check('name', 'The name must mandatory').not().isEmpty(),
+    check('email', 'The email must mandatory').not().isEmpty(),
+    check('password', 'The password must be a correct format').isEmail(),
+    validateFields,
+    
+    validExistUser,
+  ],
+  updateUser
+);
+router.patch(
+  '/password/:id', 
+[
+  check('current/Password', 'The current password must be mandatory')
+  .not()
+  .isEmpty(),
+  check('newPassword', 'The new password must be mandatory').not().isEmpty(),
   validateFields,
-  validUser,
-  protectAccountOwner,
-   updateUser
-   );
+  validExistUser,
+  protectAccountOwner
+
+],
+updatePassword
+);
+
+router.delete('/:id', validExistUser, deleteUser);
+
 module.exports = {
   userRouter: router,
-}
+};
