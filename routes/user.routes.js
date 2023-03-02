@@ -1,8 +1,10 @@
 const { Router } = require('express');
-const { signup } = require('../controllers/user.controller');
+const { signup,login, updateUser } = require('../controllers/user.controller');
 const {
   validUserByEmail,
   validPassword,
+  validUser,
+  protectAccountOwner,
   } = require('../middlewares/user.middleware');
   const {
     signupValidations,
@@ -22,6 +24,15 @@ router.post(
   validPassword,
   login
 );
+router.use(protect);
+router.patch(
+  '/:id', 
+  updateUserValidation,
+  validateFields,
+  validUser,
+  protectAccountOwner,
+   updateUser
+   );
 module.exports = {
   userRouter: router,
 }

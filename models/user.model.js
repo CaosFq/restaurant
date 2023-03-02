@@ -31,7 +31,7 @@ const Restaurant = db.define('restaurant', {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: true,
-    }
-})
+    },
+});
 
-module.exports = User
+module.exports = User;

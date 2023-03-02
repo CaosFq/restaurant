@@ -37,6 +37,17 @@ exports.login = catchAsync(async (req, res, mext) => {
         },
     });
 });
+exports.updateUser = catchAsync(async (req, res, next)=>{
+const { user } =req;
+const { name, email} = req.body;
+
+await user.update({ name, email });
+
+res.status(200).json({
+    status: 'sucess',
+    message: 'The user has been updated',
+});
+});
 
 
 
